@@ -57,7 +57,7 @@ async function run() {
       res.send(package);
     });
 
-    //Get My Order API
+    //Get My Package API
 
     app.get("/myOrders/:email", async (req, res) => {
       const userEmail = req.params.email;
@@ -67,10 +67,41 @@ async function run() {
       res.json(result);
     });
 
+    //Delete Package API
+
     app.delete("/orderDelete/:id", async (req, res) => {
       const id = req.params.id;
       const query = { _id: ObjectId(id) };
       const result = await bookPackageCollection.deleteOne(query);
+      res.json(result);
+    });
+
+    //Manage All Package API
+
+    app.get("/manage-package", async (req, res) => {
+      const cursor = bookPackageCollection.find({});
+      const result = await cursor.toArray();
+      res.json(result);
+    });
+
+    //Update Status API
+
+    app.put("/manage-package/:id", async (req, res) => {
+      const id = req.params.id;
+      const updatePackage = req.body;
+      const filter = { _id: ObjectId(id) };
+      const options = { upsert: true };
+      const updateDoc = {
+        $set: {
+          status: true,
+        },
+      };
+      const result = await bookPackageCollection.updateOne(
+        filter,
+        updateDoc,
+        options
+      );
+
       res.json(result);
     });
   } finally {
