@@ -4,7 +4,7 @@ const app = express();
 var cors = require("cors");
 require("dotenv").config();
 const ObjectId = require("mongodb").ObjectId;
-const port = 5000;
+const port = process.env.PORT || 5000;
 
 //Middleware
 app.use(cors());
@@ -21,7 +21,6 @@ const client = new MongoClient(uri, {
 async function run() {
   try {
     await client.connect();
-    console.log("database COnnected");
     const database = client.db("trip_World");
     const packageCollection = database.collection("package");
     const bookPackageCollection = database.collection("book_package");
@@ -82,7 +81,7 @@ async function run() {
 run().catch(console.dir);
 
 app.get("/", (req, res) => {
-  res.send("Hello World!");
+  res.send("Trip-World Server Running");
 });
 
 app.listen(port, () => {
