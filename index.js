@@ -76,9 +76,9 @@ async function run() {
       res.json(result);
     });
 
-    //Manage All Package API
+    //Manage All Booking API
 
-    app.get("/manage-package", async (req, res) => {
+    app.get("/manage-booking", async (req, res) => {
       const cursor = bookPackageCollection.find({});
       const result = await cursor.toArray();
       res.json(result);
@@ -86,7 +86,7 @@ async function run() {
 
     //Update Status API
 
-    app.put("/manage-package/:id", async (req, res) => {
+    app.put("/manage-booking/:id", async (req, res) => {
       const id = req.params.id;
       const updatePackage = req.body;
       const filter = { _id: ObjectId(id) };
